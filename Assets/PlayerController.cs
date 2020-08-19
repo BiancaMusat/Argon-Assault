@@ -5,30 +5,37 @@ using UnityEditor;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class Player : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    [Tooltip("In m/s")] [SerializeField] float xSpeed = 4f;
+    [Header("General")]
+    [Tooltip("In m/s")] [SerializeField] float controlSpeed = 4f;
     [Tooltip("In m/s")] [SerializeField] float xRange = 5f;
     [Tooltip("In m/s")] [SerializeField] float yRange = 5f;
 
+    [Header("Screen Position")]
     [SerializeField] float posPitchFactor = -5f;
-    [SerializeField] float controlPitchFactor = -10f;
     [SerializeField] float posYawFactor = 5f;
+
+    [Header("Control Throw")]
+    [SerializeField] float controlPitchFactor = -10f;
     [SerializeField] float controlRollFactor = -20f;
 
     float xThrow, yThrow;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    bool controlEnabled = true;
 
     // Update is called once per frame
     void Update()
     {
-        ProcessTranslation();
-        ProcessRotation();
+        if (controlEnabled)
+        {
+            ProcessTranslation();
+            ProcessRotation();
+        }
+    }
+
+    void OnPlayerDeath() // called by string refernce from collider
+    {
+        controlEnabled = false;
     }
 
     private void ProcessRotation()
@@ -42,12 +49,12 @@ public class Player : MonoBehaviour
     private void ProcessTranslation()
     {
         xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
-        float xOffset = xThrow * xSpeed * Time.deltaTime;
+        float xOffset = xThrow * controlSpeed * Time.deltaTime;
         float rawNewXPos = transform.localPosition.x + xOffset;
         rawNewXPos = Mathf.Clamp(rawNewXPos, -xRange, xRange);
 
         yThrow = CrossPlatformInputManager.GetAxis("Vertical");
-        float yOffset = yThrow * xSpeed * Time.deltaTime;
+        float yOffset = yThrow * controlSpeed * Time.deltaTime;
         float rawNewYPos = transform.localPosition.y + yOffset;
         rawNewYPos = Mathf.Clamp(rawNewYPos, -yRange, yRange);
 

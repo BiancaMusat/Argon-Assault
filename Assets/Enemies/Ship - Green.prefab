@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6828952188666365841}
   - component: {fileID: 6827193009914672813}
   - component: {fileID: 6816206197467207903}
+  - component: {fileID: -3048629218287256717}
   m_Layer: 0
   m_Name: Ship - Green
   m_TagString: Untagged
@@ -81,3 +82,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &-3048629218287256717
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6831802094381588759}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.38488352, y: 0.51466966, z: 0.17804626}
+  m_Center: {x: 0, y: 0, z: 0}
