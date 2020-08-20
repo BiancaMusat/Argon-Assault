@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("In m/s")] [SerializeField] float controlSpeed = 4f;
     [Tooltip("In m/s")] [SerializeField] float xRange = 5f;
     [Tooltip("In m/s")] [SerializeField] float yRange = 5f;
+    [SerializeField] GameObject[] guns;
 
     [Header("Screen Position")]
     [SerializeField] float posPitchFactor = -5f;
@@ -30,6 +32,34 @@ public class PlayerController : MonoBehaviour
         {
             ProcessTranslation();
             ProcessRotation();
+            ProcessFiring();
+        }
+    }
+
+    private void ProcessFiring()
+    {
+        if (CrossPlatformInputManager.GetButton("Fire"))
+        {
+            ActivateGuns();
+        } else
+        {
+            DeactivateGuns();
+        }
+    }
+
+    private void DeactivateGuns()
+    {
+        foreach (GameObject gun in guns)
+        {
+            gun.SetActive(false);
+        }
+    }
+
+    private void ActivateGuns()
+    {
+        foreach (GameObject gun in guns)
+        {
+            gun.SetActive(true);
         }
     }
 
