@@ -40,32 +40,29 @@ public class PlayerController : MonoBehaviour
     {
         if (CrossPlatformInputManager.GetButton("Fire"))
         {
-            ActivateGuns();
+            SetGunsACtive(true);
         } else
         {
-            DeactivateGuns();
+            SetGunsACtive(false);
         }
     }
 
-    private void DeactivateGuns()
+    private void SetGunsACtive(bool setActive)
     {
         foreach (GameObject gun in guns)
         {
-            gun.SetActive(false);
+            ParticleSystem particleSys = gun.GetComponent<ParticleSystem>();
+            var emissions = particleSys.emission;  // this code may affect death FX
+            if (setActive)
+            {
+                emissions.enabled = true;
+            }
+            else
+            {
+                emissions.enabled = false;
+            }
+                
         }
-    }
-
-    private void ActivateGuns()
-    {
-        foreach (GameObject gun in guns)
-        {
-            gun.SetActive(true);
-        }
-    }
-
-    void OnPlayerDeath() // called by string refernce from collider
-    {
-        controlEnabled = false;
     }
 
     private void ProcessRotation()
@@ -89,5 +86,10 @@ public class PlayerController : MonoBehaviour
         rawNewYPos = Mathf.Clamp(rawNewYPos, -yRange, yRange);
 
         transform.localPosition = new Vector3(rawNewXPos, rawNewYPos, transform.localPosition.z);
+    }
+
+    void OnPlayerDeath() // called by string refernce from collider
+    {
+        controlEnabled = false;
     }
 }
